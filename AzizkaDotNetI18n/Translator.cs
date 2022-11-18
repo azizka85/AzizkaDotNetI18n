@@ -1,4 +1,5 @@
 ﻿using AzizkaDotNetI18n.Options;
+using System.Xml;
 
 namespace AzizkaDotNetI18n;
 
@@ -65,80 +66,34 @@ public class Translator
         ResetContext();
     }
 
-    public string Translate(string text, params object[] input)
+    public string Translate(string text)
     {
-        int? num = null;
-        Dictionary<string, string>? formatting = null;
-        object? defaultNumOrFormatting = null;
-        object? numOrFormattingOrContext = null;
-        object? formattingOrContext = null;
+        return TranslateText(text, null, null, globalContext);
+    }
 
-        if (input.Length > 0)
-        {
-            defaultNumOrFormatting = input[0];
-        }
+    public string Translate(string text, int num)
+    {
+        return TranslateText(text, num, null, globalContext);
+    }
 
-        if (input.Length > 1)
-        {
-            numOrFormattingOrContext = input[1];
-        }
+    public string Translate(string text, Dictionary<string, string> formatting)
+    {
+        return TranslateText(text, null, formatting, globalContext);
+    }
 
-        if (input.Length > 2)
-        {
-            formattingOrContext = input[2];
-        }
+    public string Translate(string text, Dictionary<string, string> formatting, Dictionary<string, string> context)
+    {
+        return TranslateText(text, null, formatting, context);
+    }
 
-        var context = globalContext;
-
-        if (defaultNumOrFormatting is Dictionary<string, string>)
-        {
-            formatting = (Dictionary<string, string>)defaultNumOrFormatting;
-
-            if (numOrFormattingOrContext is Dictionary<string, string>)
-            {
-                context = (Dictionary<string, string>)numOrFormattingOrContext;
-            }
-        }
-        else if (defaultNumOrFormatting is int)
-        {
-            num = (int)defaultNumOrFormatting;
-
-            if (numOrFormattingOrContext is Dictionary<string, string>)
-            {
-                formatting = (Dictionary<string, string>)numOrFormattingOrContext;
-            }
-
-            if (formattingOrContext is Dictionary<string, string>)
-            {
-                context = (Dictionary<string, string>)formattingOrContext;
-            }
-        }
-        else
-        {
-            if (numOrFormattingOrContext is int)
-            {
-                num = (int)numOrFormattingOrContext;
-
-                if (formattingOrContext is Dictionary<string, string>)
-                {
-                    formatting = (Dictionary<string, string>)formattingOrContext;
-                }
-            }
-            else
-            {
-                if (numOrFormattingOrContext is Dictionary<string, string>)
-                {
-                    formatting = (Dictionary<string, string>)numOrFormattingOrContext;
-                }
-
-                if (formattingOrContext is Dictionary<string, string>)
-                {
-                    context = (Dictionary<string, string>)formattingOrContext;
-                }
-            }
-        }
-
+    public string Translate(string text, int num, Dictionary<string, string> formatting, Dictionary<string, string> context)
+    {
         return TranslateText(text, num, formatting, context);
+    }
+
+    public string Translate(string text, int num, Dictionary<string, string> formatting)
+    {
+        return Translate(text, num, formatting, globalContext);
     }
 
     public string TranslateText(
