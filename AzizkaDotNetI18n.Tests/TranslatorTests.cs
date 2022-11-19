@@ -11,15 +11,15 @@ namespace AzizkaDotNetI18n.Tests
             var key = "Hello";
             var value = "Hello translated";
 
-            var translator = new Translator();
-
-            translator.Add(new DataOptions
-            {
-                Values = new Dictionary<string, object>
+            var translator = Translator.Create(
+                new DataOptions
                 {
-                    {key, value}
+                    Values = new Dictionary<string, object>
+                    {
+                        {key, value}
+                    }
                 }
-            });
+            );
 
             Assert.Equal(value, translator.Translate(key));
         }
@@ -35,23 +35,23 @@ namespace AzizkaDotNetI18n.Tests
             var twoComments = "2 comments";
             var tenComments = "10 comments";
 
-            var translator = new Translator();
-
-            translator.Add(new DataOptions
-            {
-                Values = new Dictionary<string, object>
+            var translator = Translator.Create(
+                new DataOptions
                 {
-                    { 
-                        key, 
-                        new List<List<object>> 
+                    Values = new Dictionary<string, object>
+                    {
                         {
-                            new List<object> { 0, 0, "%n comments" },
-                            new List<object> { 1, 1, "%n comment" },
-                            new List<object> { 2, null, "%n comments" }
-                        } 
+                            key,
+                            new List<List<object>>
+                            {
+                                new List<object> { 0, 0, "%n comments" },
+                                new List<object> { 1, 1, "%n comment" },
+                                new List<object> { 2, null, "%n comments" }
+                            }
+                        }
                     }
                 }
-            });
+            );            
 
             Assert.Equal(zeroComments, translator.Translate(key, 0));
             Assert.Equal(oneComment, translator.Translate(key, 1));
@@ -72,25 +72,21 @@ namespace AzizkaDotNetI18n.Tests
             var dueInTwoDays = "Due in 2 days";
             var dueInTenDays = "Due in 10 days";
 
-            var translator = new Translator();
-
-            translator.Add(new DataOptions
-            {
-                Values = new Dictionary<string, object>
+            var translator = Translator.Create(
+                new DataOptions
                 {
+                    Values = new Dictionary<string, object>
                     {
-                        key,
-                        new List<List<object>> 
-                        {
+                        { key, new List<List<object>> {
                             new List<object> { null, -2, "Due -%n days ago" },
                             new List<object> { -1, -1, "Due Yesterday" },
                             new List<object> { 0, 0, "Due Today" },
                             new List<object> { 1, 1, "Due Tomorrow" },
                             new List<object> { 2, null, "Due in %n days" }
-                        }
+                        }}
                     }
                 }
-            });
+            );
 
             Assert.Equal(dueTenDaysAgo, translator.Translate(key, -10));
             Assert.Equal(dueTwoDaysAgo, translator.Translate(key, -2));
@@ -129,36 +125,36 @@ namespace AzizkaDotNetI18n.Tests
             var johnValue = "John updated his profile";
             var janeValue = "Jane updated her profile";                        
 
-            var translator = new Translator();
-
-            translator.Add(new DataOptions
-            {
-                Contexts = new List<ContextOptions>
+            var translator = Translator.Create(
+                new DataOptions
                 {
-                    new ContextOptions
+                    Contexts = new List<ContextOptions>
                     {
-                        Matches = new Dictionary<string, string>
+                        new ContextOptions
                         {
-                            { "gender", "male" }
+                            Matches = new Dictionary<string, string>
+                            {
+                                { "gender", "male" }
+                            },
+                            Values = new Dictionary<string, object>
+                            {
+                                { key, "%{name} updated his profile" }
+                            }
                         },
-                        Values = new Dictionary<string, object>
+                        new ContextOptions
                         {
-                            { key, "%{name} updated his profile" }
-                        }
-                    },
-                    new ContextOptions
-                    {
-                        Matches = new Dictionary<string, string>
-                        {
-                            { "gender", "female" }
-                        },
-                        Values = new Dictionary<string, object>
-                        {
-                            { key, "%{name} updated her profile" }
+                            Matches = new Dictionary<string, string>
+                            {
+                                { "gender", "female" }
+                            },
+                            Values = new Dictionary<string, object>
+                            {
+                                { key, "%{name} updated her profile" }
+                            }
                         }
                     }
                 }
-            });
+            );
 
             Assert.Equal
             (
@@ -203,10 +199,7 @@ namespace AzizkaDotNetI18n.Tests
             var johnValue = "John uploaded 1 photo to his Buck's Night album";
             var janeValue = "Jane uploaded 4 photos to her Hen's Night album";
 
-            var translator = new Translator();
-
-            translator.Add
-            (
+            var translator = Translator.Create(
                 new DataOptions
                 {
                     Contexts = new List<ContextOptions>
@@ -303,29 +296,22 @@ namespace AzizkaDotNetI18n.Tests
             var fourResults = "4 результата";
             var results = "101 результат";
 
-            var translator = new Translator();
-            
-            translator.Add
-            (
+            var translator = Translator.Create(
                 new DataOptions
                 {
                     Values = new Dictionary<string, object>
                     {
-                        {
-                            key,
-                            new Dictionary<string, object>
-                            {
-                                { "zero", "нет результатов" },
-                                { "one", "%n результат" },
-                                { "few", "%n результата" },
-                                { "many", "%n результатов" },
-                                { "other", "%n результаты" }
-                            }
-                        }
+                        { key, new Dictionary<string, object> {
+                            { "zero", "нет результатов" },
+                            { "one", "%n результат" },
+                            { "few", "%n результата" },
+                            { "many", "%n результатов" },
+                            { "other", "%n результаты" }
+                        }}
                     }
                 }
             );
-
+            
             var getPluralisationKey = (int? num) =>
             {
                 if (num == null || num == 0)

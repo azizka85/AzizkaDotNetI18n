@@ -4,6 +4,19 @@
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <PackageId>azizka-i18n</PackageId>
+    <Title>C# port of js i18n</Title>
+    <Version>1.2.0</Version>
+    <Authors>Aziz Kudaikulov aziz.kudaikulov@gmail.com</Authors>
+    <Company>Public</Company>
+    <Product>C# port of js i18n</Product>
+    <Description>C# port of js i18n</Description>
+    <Copyright>Public</Copyright>
+    <PackageProjectUrl>https://github.com/azizka85/AzizkaDotNetI18n</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/azizka85/AzizkaDotNetI18n</RepositoryUrl>
+    <RepositoryType>github</RepositoryType>
+    <PackageTags>C#, JavaScript, i18n</PackageTags>
+    <PackageReleaseNotes>Add factory method to create Translator object</PackageReleaseNotes>
   </PropertyGroup>
 
 </Project>
