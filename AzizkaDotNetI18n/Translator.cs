@@ -10,6 +10,11 @@ public class Translator
 
     protected Func<string, int?, Dictionary<string, string>?, Dictionary<string, object>, string>? extension;
 
+    public DataOptions? Data
+    {
+        get { return data; }
+    }
+
     public static Translator Create(DataOptions data)
     {
         return new Translator { data = data };

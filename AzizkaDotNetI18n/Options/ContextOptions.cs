@@ -2,6 +2,6 @@
 
 public class ContextOptions
 {
-    public Dictionary<string, string> Matches = new Dictionary<string, string>();
-    public Dictionary<string, object> Values = new Dictionary<string, object>();
+    public Dictionary<string, string> Matches { get; set; } = new Dictionary<string, string>();
+    public Dictionary<string, object> Values { get; set; } = new Dictionary<string, object>();
 }
